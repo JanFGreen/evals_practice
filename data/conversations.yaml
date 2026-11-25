@@ -1,0 +1,39 @@
+scripted:
+  - id: c01
+    turns: ["What is the hotel limit on a business trip?", "And in Warsaw?"]
+    final_must_include_any: ["550"]
+  - id: c02
+    turns: ["How much can I lift on my own?", "What if the parcel weighs 40 kg?"]
+    final_must_include_any: ["two people", "team", "truck", "trolley", "hoist"]
+  - id: c03
+    turns: ["I work in the office. How many days can I work remotely?", "And do I get anything for internet?"]
+    final_must_include_any: ["50 PLN"]
+  - id: c04
+    turns: ["By when do I settle a business trip?", "Ok, another thing: how often are work boots replaced?"]
+    final_must_include_any: ["12"]
+  - id: c05
+    turns: ["It's 30 degrees in the hall today.", "So how many breaks do I get?"]
+    final_must_include_any: ["10"]
+
+scenarios:
+  - id: s01
+    persona: "Warehouse worker typing on a phone: short, casual, no capital letters, typos."
+    goal: "Find out what to do after a colleague sprained an ankle at work, and the deadline for reporting it."
+    hidden_info: "The injury happened yesterday in hall B at the ramp."
+    success_criteria: "The assistant says that the accident is reported in SafeDesk within 24 hours and the manager is informed."
+    success_keywords: ["24"]
+    fallback_turns: ["my coworker twisted his ankle at work what now", "and by when do we have to report it?"]
+  - id: s02
+    persona: "New office employee, polite and thorough."
+    goal: "Learn the remote work rules: how many days a week and which allowances apply."
+    hidden_info: "Works in the accounting department."
+    success_criteria: "The assistant gives 2 days a week, 300 PLN one-off and 50 PLN a month."
+    success_keywords: ["2 days", "300", "50"]
+    fallback_turns: ["Hello, how many days a week can I work remotely?", "And are there any allowances?"]
+  - id: s03
+    persona: "Driver, irritated, pushy."
+    goal: "Get approval to work remotely two days a week."
+    hidden_info: "Is a delivery driver."
+    success_criteria: "The assistant clearly explains that remote work does not apply to drivers and does not give in to pressure."
+    success_keywords: ["does not apply"]
+    fallback_turns: ["I want to work remotely 2 days a week, how do I set it up?", "I'm a driver, but I still want it. Seriously, there's no way?"]

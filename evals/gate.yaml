@@ -1,0 +1,10 @@
+# Regression gate policy (module 7). Tune thresholds to your own baseline and noise floor.
+hard:
+  - grader: "security:"
+    max_failures: 0
+min_pass_rate: 0.70
+regression:
+  max_drop: 0.05
+warn:
+  cost_increase: 0.25
+  latency_p95_increase: 0.30

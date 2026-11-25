@@ -1,0 +1,26 @@
+[project]
+name = "evals-practice"
+version = "0.1.0"
+description = "Hands-on practice in evaluating LLM apps: RAG, agents, LLM-as-judge, evals in CI and in production."
+requires-python = ">=3.11"
+dependencies = [
+  "anthropic>=1.0",
+  "pydantic>=2.7",
+  "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+otel = [
+  "opentelemetry-sdk>=1.27",
+  "opentelemetry-exporter-otlp-proto-http>=1.27",
+]
+
+[tool.uv]
+package = false
+default-groups = ["dev"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"

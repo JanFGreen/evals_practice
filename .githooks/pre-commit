@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Blocks commits that could leak something or break the "English only" rule.
+# Enable once per clone:  git config core.hooksPath .githooks
+set -euo pipefail
+
+fail=0
+report() { echo "pre-commit: $1" >&2; fail=1; }
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$staged" ] && exit 0
+
+# 1. Paths that must stay local.
+while IFS= read -r f; do
+  case "$f" in
+    .env|.env.*) [ "$f" = ".env.example" ] || report "refusing to commit $f (secrets)";;
+    course/*|private/*|.cache/*|runs/*) report "refusing to commit $f (local-only path)";;
+    notes/*) [ "$f" = "notes/README.md" ] || report "refusing to commit $f (personal notes stay local)";;
+  esac
+done <<< "$staged"
+
+# Only added lines of the staged diff are checked below.
+added=$(git diff --cached -U0 --no-color -- . ':(exclude)uv.lock' ':(exclude)playwright/package-lock.json' \
+        | grep -E '^\+' | grep -vE '^\+\+\+ ' || true)
+
+# 2. Secrets.
+if grep -nE 'sk-ant-[A-Za-z0-9_-]{10,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----' <<< "$added" >/dev/null; then
+  report "a staged change looks like a secret (API key / token / private key)"
+fi
+
+# 3. Work-related content stays out of this personal repo.
+if grep -niE 'so[t]er' <<< "$added" >/dev/null; then
+  report "a staged change mentions work-related names; keep work content out of this repo"
+fi
+
+# 4. English only: no Polish diacritics in committed text (perl: works with macOS and Linux grep alike).
+polish=$(perl -CSD -ne 'print if /[\x{104}-\x{107}\x{118}\x{119}\x{141}-\x{144}\x{d3}\x{f3}\x{15a}\x{15b}\x{179}-\x{17c}]/' <<< "$added" | head -5)
+if [ -n "$polish" ]; then
+  report "Polish characters found in staged changes; the repo is English-only (keep Polish notes in notes/)"
+  echo "$polish" >&2
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "pre-commit: commit blocked. Fix the above, or unstage the files (git restore --staged <file>)." >&2
+  exit 1
+fi

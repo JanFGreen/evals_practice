@@ -1,0 +1,27 @@
+# Python / tooling
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+progress.xml
+
+# Secrets and local config: never commit
+.env
+.env.*
+!.env.example
+*.local.*
+
+# Local-only data: model cache, run outputs, personal notes, course materials
+.cache/
+runs/
+notes/*
+!notes/README.md
+course/
+private/
+
+# Node / Playwright / promptfoo
+playwright/node_modules/
+playwright/test-results/
+playwright/playwright-report/
+promptfoo/output/

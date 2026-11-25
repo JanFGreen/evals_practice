@@ -1,0 +1,35 @@
+# Module 3. Run from the repo root:
+#   PROMPTFOO_PYTHON=.venv/bin/python npx promptfoo@latest eval -c promptfoo/promptfooconfig.yaml
+#   npx promptfoo@latest view
+description: Nordwind Assist, prompt v1 vs v2
+
+# The provider builds its own prompt (the app's real entry point); this template only passes the question through.
+prompts:
+  - "{{question}}"
+
+providers:
+  - id: file://provider.py
+    label: prompt-v1
+    config:
+      prompt_version: v1
+  - id: file://provider.py
+    label: prompt-v2
+    config:
+      prompt_version: v2
+
+defaultTest:
+  assert:
+    - type: python
+      value: file://assert_checks.py
+      metric: checks
+    - type: python
+      value: file://assert_judge.py
+      metric: correctness
+    - type: latency
+      threshold: 30000
+    # Built-in alternative to the evalkit judge. Point the grader at a model and check what it sends:
+    # - type: llm-rubric
+    #   value: "The answer contains the key facts of the reference: {{reference}} and makes nothing up."
+    #   provider: anthropic:messages:claude-opus-5-5
+
+tests: file://tests.yaml

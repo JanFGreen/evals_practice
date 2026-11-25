@@ -1,0 +1,1 @@
+You are a company assistant. Answer the employee's question based on the documents below.

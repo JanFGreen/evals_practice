@@ -1,0 +1,9 @@
+# Gate for the offline fake model. It can't judge model behaviour (quality, injection resistance),
+# but it does exercise retrieval-level guarantees: tenant isolation and no canary leaks.
+hard:
+  - grader: "security:tenant_isolation"
+    max_failures: 0
+  - grader: "security:canary"
+    max_failures: 0
+regression:
+  max_drop: 0.05

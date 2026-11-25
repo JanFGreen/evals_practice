@@ -1,0 +1,42 @@
+name: evals
+
+# Offline only: no API keys, no model calls, nothing leaves the runner.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  EVAL_LLM_MODE: fake
+
+jobs:
+  harness:
+    name: Harness and test object (reference solutions)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - name: Unit tests against the reference solutions
+        run: EVAL_TARGET=solution uv run pytest
+      - name: Retriever eval
+        run: uv run python -m evalkit.cli retrieval
+      - name: Tenant isolation
+        run: uv run python -m evalkit.cli leakcheck
+      - name: Gate on the fake model (mechanics + security)
+        run: |
+          uv run python -m evalkit.cli run --graders checks,security --out runs/candidate-fake
+          uv run python -m evalkit.gate --baseline evals/baseline-fake --candidate runs/candidate-fake --policy evals/gate-fake.yaml
+
+  progress:
+    name: My exercise progress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - name: Run the exercise tests (informational, never fails the build)
+        run: |
+          uv run pytest -q -p no:cacheprovider --junitxml=progress.xml || true
+          uv run python scripts/progress.py progress.xml >> "$GITHUB_STEP_SUMMARY"

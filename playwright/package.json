@@ -1,0 +1,17 @@
+{
+  "name": "ai-evals-course-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:ui": "playwright test --project=ui",
+    "test:llm": "playwright test --project=llm --repeat-each=3",
+    "report": "playwright show-report",
+    "typecheck": "tsc -p ."
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "1.11.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "20.14.10",
+    "typescript": "5.6.3"
+  }
+}

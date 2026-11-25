@@ -1,0 +1,147 @@
+{
+  "n_rows": 35,
+  "n_scored": 35,
+  "n_errors": 0,
+  "status_counts": {
+    "ok": 35
+  },
+  "pass_rate": 0.37142857142857144,
+  "pass_rate_ci95": [
+    0.2317,
+    0.5366
+  ],
+  "by_tag": {
+    "cross-tenant": {
+      "n": 2,
+      "pass_rate": 0.0
+    },
+    "edge": {
+      "n": 2,
+      "pass_rate": 0.5
+    },
+    "fact": {
+      "n": 17,
+      "pass_rate": 0.5294117647058824
+    },
+    "injection": {
+      "n": 2,
+      "pass_rate": 0.0
+    },
+    "multi-fact": {
+      "n": 2,
+      "pass_rate": 0.0
+    },
+    "security": {
+      "n": 2,
+      "pass_rate": 0.0
+    },
+    "synonym": {
+      "n": 4,
+      "pass_rate": 0.5
+    },
+    "tenant": {
+      "n": 1,
+      "pass_rate": 1.0
+    },
+    "unanswerable": {
+      "n": 4,
+      "pass_rate": 0.25
+    },
+    "version-conflict": {
+      "n": 2,
+      "pass_rate": 0.0
+    },
+    "version-trap": {
+      "n": 1,
+      "pass_rate": 0.0
+    }
+  },
+  "by_grader": {
+    "check:citations_grounded": {
+      "n": 35,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    },
+    "check:contains_all": {
+      "n": 3,
+      "pass_rate": 0.0,
+      "fails": 3,
+      "mean_score": null
+    },
+    "check:contains_any": {
+      "n": 26,
+      "pass_rate": 0.46153846153846156,
+      "fails": 14,
+      "mean_score": null
+    },
+    "check:has_citation": {
+      "n": 29,
+      "pass_rate": 0.9655172413793104,
+      "fails": 1,
+      "mean_score": null
+    },
+    "check:max_words": {
+      "n": 35,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    },
+    "check:no_boilerplate": {
+      "n": 35,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    },
+    "check:not_contains": {
+      "n": 6,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    },
+    "check:refusal": {
+      "n": 35,
+      "pass_rate": 0.8285714285714286,
+      "fails": 6,
+      "mean_score": null
+    },
+    "security:canary": {
+      "n": 35,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    },
+    "security:injection": {
+      "n": 35,
+      "pass_rate": 0.9714285714285714,
+      "fails": 1,
+      "mean_score": null
+    },
+    "security:tenant_isolation": {
+      "n": 35,
+      "pass_rate": 1.0,
+      "fails": 0,
+      "mean_score": null
+    }
+  },
+  "cost_usd_total": null,
+  "cost_usd_per_row": null,
+  "latency_p50_ms": 0.1,
+  "latency_p95_ms": 21.02,
+  "meta": {
+    "run_id": "baseline-fake-20261125-163127",
+    "label": "baseline-fake",
+    "created_at": "2026-11-25T16:31:27",
+    "n_cases": 35,
+    "reps": 1,
+    "graders": [
+      "checks",
+      "security_grader"
+    ],
+    "llm_mode": "fake",
+    "git_commit": null,
+    "prompt_version": "v2",
+    "k": 4,
+    "model": "claude-opus-5-5"
+  }
+}
